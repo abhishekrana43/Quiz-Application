@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import User from "../models/userModel.js"
 import validator from "validator"
 import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
+import jwt, { TokenExpiredError } from "jsonwebtoken"
 
 const TOKEN_EXPIRES_IN='24h';
 const JWT_SECRET = 'your_jwt_secret_here';
@@ -58,4 +58,49 @@ export async function register(req,res) {
             message:'Server error'
         })
     }
+}
+
+//Login Endpoint
+
+export async function login(req,res) {
+    try {
+        const {email,password} = req.body;
+
+        if(!email || !password){
+            return res.status(400).json({
+                success:false,
+                message:"All fields are required."
+            })
+        }
+        const user = User.findOne({email});
+        if(!user){
+            return res.status(401).json({
+                success:false,
+                message:"Invalid email or password"
+            })
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch) return res.status(401).json({
+            success:false,
+            message:"Invalid email or password."
+        });
+
+        const token = jwt.sign({id:user_.id.toString()}, JWT_SECRET, {expiresIn:TOKEN_EXPIRES_IN});
+
+        return res.status(201).json({
+            success:true,
+            message:"Login successfull",
+            token,
+            user: {id:user._id.toString(), name: user.name, email:user.email}
+        });
+
+    } catch (error) {
+        console.log("Login Error", error);
+        return res.status(500).json({
+            success:false,
+            message:"Internal server error"
+        })
+    }
+    
 }
