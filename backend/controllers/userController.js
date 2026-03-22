@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import User from "../models/userModel.js"
 import validator from "validator"
 import bcrypt from "bcryptjs"
-import jwt, { TokenExpiredError } from "jsonwebtoken"
+import jwt from "jsonwebtoken"
 
 const TOKEN_EXPIRES_IN='24h';
 const JWT_SECRET = 'your_jwt_secret_here';
@@ -27,7 +27,7 @@ export async function register(req,res) {
             })
         }
 
-        const exist = await User.findOne({email}).len();
+        const exist = await User.findOne({email});
         if(exist) return res.status(409).json({success:false, message:"user already exist"})
         
         const newId = new mongoose.Types.ObjectId();
@@ -86,7 +86,7 @@ export async function login(req,res) {
             message:"Invalid email or password."
         });
 
-        const token = jwt.sign({id:user_.id.toString()}, JWT_SECRET, {expiresIn:TOKEN_EXPIRES_IN});
+        const token = jwt.sign({id:user._id.toString()}, JWT_SECRET, {expiresIn:TOKEN_EXPIRES_IN});
 
         return res.status(201).json({
             success:true,
