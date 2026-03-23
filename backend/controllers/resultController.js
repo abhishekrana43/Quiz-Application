@@ -53,5 +53,32 @@ export async function createResult(req,res) {
 
 // LIST THE RESULT
 export async function listResult(params) {
-    
+    try {
+        if(!req.user || !req.user.id){
+          return res.status(401).json({
+            success:false,
+            message:'Not Authorized'
+          })  
+        }
+
+        const {technology} = req.query
+
+        const query = {user: req.user.id};
+        if(technology && technology.toLowerCase() !== 'all'){
+            query.technology = technology;   
+        }
+
+        const items =  (await Result.find(query)).sort({createdAt: -1}).lean();
+        return res.json({
+            success:true,
+            results: items
+        })
+    } catch (error) {
+       console.log("ListResults Error:", err);
+       return res.status(500).json({
+        success:false,
+        message:"Server Error"
+       }) 
+    }
 }
+
