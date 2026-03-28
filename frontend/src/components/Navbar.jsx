@@ -8,6 +8,22 @@ const Navbar = ({logoSrc}) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+   useEffect(() => {
+    try {
+      const u = localStorage.getItem("authToken");
+      setLoggedIn(!!u);
+    } catch (e) {
+      setLoggedIn(false);
+    }
+
+    const handler = (ev) => {
+      const detailUser = ev?.detail?.user ?? null;
+      setLoggedIn(!!detailUser);
+    };
+    window.addEventListener("authChanged", handler);
+
+    return () => window.removeEventListener("authChanged", handler);
+  }, []);
   //LOGOUT FUNCTION
   const handleLogout = () => {
     try {
