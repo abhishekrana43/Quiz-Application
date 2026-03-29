@@ -3,10 +3,11 @@ import { signupStyles } from '../assets/dummyStyles';
 import { replace, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { User, Lock, Eye, EyeOff } from 'lucide-react';
 
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-const SignUp = ({onSignupSuccess = null}) => {
+const Signup = ({onSignupSuccess = null}) => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -127,14 +128,147 @@ const SignUp = ({onSignupSuccess = null}) => {
 
                         <span className={signupStyles.headingText}>Create Account</span>
                     </h2>
+
+                    <p className={signupStyles.subtitle}>
+                        Sign in to continue to Quiz. Light, clean UI - smooth 
+                        micro animations and easily validations.
+                    </p>
+
+                    <label className={signupStyles.label}>
+                        <span className={signupStyles.labelText}>Full Name</span>
+                        <div className={signupStyles.inputContainer}> 
+                            <span className={signupStyles.inputIcon}>
+                           <User className={signupStyles.inputIconInner} />
+                         </span>
+                         <input type="text" name='name' value={name} onChange={(e) => {
+                            setName(e.target.value);
+                            if(errors.name)
+                                setErrors((s) => ({
+                            ...s,
+                        name: undefined,
+                    }));
+                         }} 
+                         className={`${signupStyles.input} ${
+                            errors.name
+                            ? signupStyles.inputError
+                            : signupStyles.inputNormal
+                         }`}
+                         placeholder='John Doe'
+                         required
+                         />
+                      </div>
+                      {errors.name && (
+                        <p className={signupStyles.errorText}>{errors.name}</p>
+                      )}
+                    </label>
+
+                     <label className={signupStyles.label}>
+                        <span className={signupStyles.labelText}>Email</span>
+                        <div className={signupStyles.inputContainer}> 
+                            <span className={signupStyles.inputIcon}>
+                           <User className={signupStyles.inputIconInner} />
+                         </span>
+                         <input type="email"
+                          name='email' 
+                          value={email} 
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            if(errors.name)
+                                setErrors((s) => ({
+                            ...s,
+                        email: undefined,
+                    }));
+                         }} 
+                         className={`${signupStyles.input} ${signupStyles.passwordInput} ${
+                            errors.email
+                            ? signupStyles.inputError
+                            : signupStyles.inputNormal
+                         }`}
+                         placeholder='Your@example.com'
+                         required
+                         />
+                      </div>
+                      {/*  */}
+                      {errors.email && (
+                        <p className={signupStyles.errorText}>{errors.email}</p>
+                      )}
+                    </label>
+
+
+                      <label className={signupStyles.label}>
+                        <span className={signupStyles.labelText}>Password</span>
+                        <div className={signupStyles.inputContainer}> 
+                            <span className={signupStyles.inputIcon}>
+                           <Lock className={signupStyles.inputIconInner} />
+                         </span>
+                         <input type={showPassword ? 'text': 'password'} 
+                         name='password' 
+                         value={password} 
+                         onChange={(e) => {
+                            setPassword(e.target.value);
+                            if(errors.password)
+                                setErrors((s) => ({
+                            ...s,
+                        password: undefined,
+                    }));
+                         }} 
+                         className={`${signupStyles.input} ${signupStyles.passwordInput} ${
+                            errors.password
+                            ? signupStyles.inputError
+                            : signupStyles.inputNormal
+                         }`}
+                         placeholder='Create your password'
+                         required
+                         />
+              
+                 <button
+                      type='button'
+                      onClick={() => setShowPassword((s) => !s)}
+                      className={signupStyles.passwordToggle}
+                    >
+                      {showPassword ? (
+                        <EyeOff className={signupStyles.passwordToggleIcon} />
+                      ) : (
+                        <Eye className={signupStyles.passwordToggleIcon} />
+                      )}
+                    </button>
+
+                      </div>
+                      {errors.password && (
+                        <p className={signupStyles.errorText}>{errors.password}</p>
+                      )}
+                    </label>
+
+                    {submitError && (
+                        <p className={signupStyles.submitError} role='alert'>{submitError}</p>
+                    )}
+
+                    <div className={signupStyles.buttonsContainer}>
+                        <button 
+                        type='submit'
+                        disabled={loading}
+                        className={signupStyles.submitButton}>
+                            {loading ? "Creating account...":"Create account"}
+
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>
       </div>
-        
-      
+        <div className={signupStyles.loginPromptContainer }>
+            <div className={signupStyles.loginPromptContainer}>
+              
+              <span className={signupStyles.loginPromptContent}>
+                Already have an account
+              </span>
+
+              <Link to="/login" className={signupStyles.loginPromptLink} >
+              </Link>
+            </div>
+        </div>
     </div>
   )
 }
 
-export default SignUp
+export default Signup
