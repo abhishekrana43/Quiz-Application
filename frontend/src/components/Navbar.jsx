@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { navbarStyles } from '../assets/dummyStyles'
 import { Link, NavLink, useNavigate, useSearchParams } from 'react-router-dom'
 import {Award, LogIn, LogOut, Menu, X} from "lucide-react"
