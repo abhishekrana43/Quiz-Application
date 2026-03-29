@@ -127,6 +127,13 @@ PORT=4000
 
 ---
 
+## 🌐 Live Demo
+
+👉 **Frontend:** https://quiz-app-frontend-9026.onrender.com/
+
+---
+
+
 ## 🤝 Contributing
 
 Contributions are welcome!
