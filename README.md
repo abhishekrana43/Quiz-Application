@@ -38,17 +38,31 @@ Users can attempt quizzes, view scores, and track their performance.
 ## 📁 Project Structure
 
 ```
+```txt
 Quiz-Application/
 │
-├── frontend/        # React frontend
+├── frontend/                         # React frontend
+│   ├── src/
+│   │   ├── assets/                  # Images, icons, static assets
+│   │   ├── components/              # Reusable UI components
+│   │   │   ├── Login.jsx
+│   │   │   ├── MyResult.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Signup.jsx
+│   │   │   └── Signin.jsx
+│   │   ├── pages/                   # Application pages
+│   │   │   ├── HomePage.jsx
+│   │   │   └── MyResult.jsx
 │
-├── backend/         # Node + Express backend
+├── backend/                         # Node + Express backend
 │   ├── controllers/
 │   ├── models/
 │   ├── routes/
 │   └── server.js
 │
 └── README.md
+```
+
 ```
 
 ---
